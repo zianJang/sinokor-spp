@@ -1,0 +1,25 @@
+{
+  "name": "sinokor",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "root",
+  "runArgs": [
+    "--gpus", "all",
+    "--shm-size", "1gb"
+  ],
+  "containerEnv": {
+    "UV_PYTHON_INSTALL_DIR": "${containerWorkspaceFolder}/.uv/python",
+    "UV_PYTHON_BIN_DIR": "${containerWorkspaceFolder}/.uv/bin",
+    "UV_TOOL_DIR": "${containerWorkspaceFolder}/.uv/tools",
+    "UV_TOOL_BIN_DIR": "${containerWorkspaceFolder}/.uv/bin"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}
