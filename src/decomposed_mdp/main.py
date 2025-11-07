@@ -319,39 +319,35 @@ if __name__ == "__main__":
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-    # Adapt projection_type to the folder name
-    if cfg.env.env_name == "mpp":
-        # todo: remove?
-        cfg.algorithm.type, almost_projection_type = cfg.testing.folder.split("-")
-
     # Verify the config. TODO: Handle it in __post_init__ or make it unrepresntable.
     if cfg.algorithm.primal_dual and cfg.training.projection_type != "None":
         raise ValueError("Primal-Dual (PD) is not compatible with the projection.")
 
-    # Build a folder name from the configuration.
-    if almost_projection_type == "vp" or almost_projection_type == "fr+vp":
-        cfg.training.projection_type = "linear_violation"
-    elif almost_projection_type == "ws+pc" or almost_projection_type == "fr+ws+pc":
-        cfg.training.projection_type = "weighted_scaling_policy_clipping"
-    elif almost_projection_type == "vp+cp":
-        cfg.training.projection_type = "convex_program"
-        cfg.testing.folder = cfg.algorithm.type + "-vp"
-    elif almost_projection_type == "ws+pc+cp":
-        cfg.training.projection_type = "convex_program"
-        cfg.testing.folder = cfg.algorithm.type + "-ws+pc"
-    elif almost_projection_type == "fr":
-        cfg.training.projection_type = "None"
-    elif almost_projection_type == "pd":
-        cfg.training.projection_type = "None"
-        cfg.algorithm.primal_dual = True
-    elif almost_projection_type == "cp":
-        cfg.training.projection_type = "convex_program"
+    # TODO: Move this code to verification, and create separate dataclass for
+    # each individual setting.
+    if cfg.algorithm.primal_dual:
+        output_dir = f"{cfg.algorithm.type}-pd"
+    elif (
+        cfg.testing.feasibility_recovery
+        and cfg.training.projection_type == "linear_violation"
+    ):
+        output_dir = f"{cfg.algorithm.type}-fr+vp"
+    elif (
+        cfg.testing.feasibility_recovery
+        and cfg.training.projection_type == "weighted_scaling_policy_clipping"
+    ):
+        output_dir = f"{cfg.algorithm.type}-fr+ws+pc"
+    elif cfg.training.projection_type == "linear_violation":
+        output_dir = f"{cfg.algorithm.type}-vp"
+    elif cfg.training.projection_type == "weighted_scaling_policy_clipping":
+        output_dir = f"{cfg.algorithm}-ws+pc"
+    elif cfg.training.projection_type == "convex_program":
+        # TODO: I can't find the config that separates 'cp', 'vp+cp' and 'ws+pc+cp'.
+        output_dir = f"{cfg.algorithm.type}-cp"
     else:
-        raise ValueError(f"Unsupported projection type: {almost_projection_type}")
+        raise ValueError("Invalid configuration.")
 
-    if cfg.testing.feasibility_recovery:
-        cfg.training.projection_type = "convex_program"
-        # config.training.projection_type = "weighted_scaling_policy_clipping"
+    cfg.testing.folder = output_dir
 
     print(
         f"Running with folder: {cfg.testing.folder}, "

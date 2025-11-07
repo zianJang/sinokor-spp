@@ -74,13 +74,13 @@ class MasterPlanningEnv(EnvBase):
         self._set_seed(cfg.seed)
         self.demand_uncertainty = cfg.demand_uncertainty
         # TODO: self.generator = UniformMPP_Generator(device=device, **kwargs)
-        self.generator = MPP_Generator(device=device, cfg)
+        self.generator = MPP_Generator(cfg, device=device)
         if td_gen is None:
             self.td_gen = self.generator(
                 batch_size=batch_size,
             )
         # Data type and shapes
-        self.float_type = th.float32 # TODO: kwargs.get("float_type", th.float32)
+        self.float_type = th.float32  # TODO: kwargs.get("float_type", th.float32)
         self.zero = th.tensor([0], device=self.device, dtype=self.float_type)
         self._compact_form_shapes()
         self._make_spec(self.td_gen)
@@ -1229,7 +1229,9 @@ class BlockMasterPlanningEnv(MasterPlanningEnv):
 
     def __init__(self, device="cuda", batch_size=(), td_gen=None, *, cfg: EnvConfig):
         # Kwargs and super
-        self.BL = cfg.blocks # Number of paired blocks: 2 (wings + center), 3 (wings + center1 + center2)
+        self.BL = (
+            cfg.blocks
+        )  # Number of paired blocks: 2 (wings + center), 3 (wings + center1 + center2)
         super().__init__(device=device, batch_size=batch_size, cfg=cfg)
 
         # Shapes

@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import tyro
+
 
 @dataclass
 class AlgorithmConfig:
@@ -81,9 +83,10 @@ class ModelConfig:
 @dataclass
 class TestingConfig:
     feasibility_recovery: bool = False
-    folder: str = "sac-pd"
     num_episodes: int = 30
     path: Path = Path("results/trained_models/navigating_uncertainty")
+    # This value will be dynamically populated.
+    folder: tyro.conf.Suppress[str] = ""
 
 
 @dataclass
