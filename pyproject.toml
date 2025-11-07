@@ -1,0 +1,28 @@
+[project]
+name = "sinokor"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "JunHo Seo", email = "junhoseo@korea.ac.kr" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "cvxpy>=1.7.3",
+    "cvxpylayers>=0.1.9",
+    "docplex>=2.30.251",
+    "dotmap>=1.3.30",
+    "rl4co>=0.6.0",
+    "tensordict>=0.10.0",
+    "torch>=2.9.0",
+    "torchrl>=0.10.1",
+    "tyro>=0.9.35",
+    "wandb>=0.22.3",
+]
+
+[project.scripts]
+sinokor = "sinokor:main"
+
+[build-system]
+requires = ["uv_build>=0.9.7,<0.10.0"]
+build-backend = "uv_build"
