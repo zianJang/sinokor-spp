@@ -15,6 +15,7 @@ ipython_config.py
 
 # Visual Studio Code
 .vscode/*
+!.vscode/settings.json
 
 # Ruff stuff:
 .ruff_cache/
