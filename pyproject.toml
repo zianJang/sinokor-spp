@@ -29,3 +29,8 @@ build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 100
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.4.0",
+]

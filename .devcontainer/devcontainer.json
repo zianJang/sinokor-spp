@@ -8,6 +8,7 @@
     "--gpus", "all",
     "--shm-size", "1gb"
   ],
+  "postCreateCommand": "uv sync && uv run pre-commit install",
   "containerEnv": {
     "UV_PYTHON_INSTALL_DIR": "${containerWorkspaceFolder}/.uv/python",
     "UV_PYTHON_BIN_DIR": "${containerWorkspaceFolder}/.uv/bin",
