@@ -67,7 +67,6 @@ class Bay:
         port_blocks: Set[int] = set(),
         center_blocks: Set[int] = set(),
         starboard_blocks: Set[int] = set(),
-        deck_tier_policy: str = "top",
     ):
         self.name = name
         self.block_total_cols = block_total_cols
@@ -78,11 +77,6 @@ class Bay:
         self.port_blocks = set(port_blocks)
         self.starboard_blocks = set(starboard_blocks)
         self.center_blocks = set(center_blocks)
-
-        # deck tier per block
-        self.deck_tier: Dict[int, int] = {}
-        for b, T in self.block_tiers.items():
-            self.deck_tier[b] = (T - 1) if deck_tier_policy == "top" else 0
 
         # occupancy[block][(col,tier)] = {"container": ContainerSpec|None, "valid": 0/1, "reefer": 0/1}
         self.occupancy: Dict[int, Dict[Slot, Dict[str, object]]] = {}

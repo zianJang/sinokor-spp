@@ -113,7 +113,7 @@ def stow_by_block_mismatch_then_paired(
                 )
 
             # paired_tasks.append(("paired", c_left))  # c_left나 c_right 둘 중 하나면 충분
-            if c_left.is_reefer:
+            if c_left.is_reefer and c_left.weight == "full":
                 reefer_paired_tasks.append(c_left)
             else:
                 general_paired_tasks.append(c_left)
@@ -126,7 +126,7 @@ def stow_by_block_mismatch_then_paired(
                     f"Left-only container (indicator {ind}) in block {block_id} must be 20ft"
                 )
             # left_tasks.append(("left", c))
-            if c.is_reefer:
+            if c.is_reefer and c.weight == "full":
                 reefer_left_tasks.append(c)
             else:
                 general_left_tasks.append(c)
@@ -138,7 +138,7 @@ def stow_by_block_mismatch_then_paired(
                     f"Right-only container (indicator {ind}) in block {block_id} must be 20ft"
                 )
             # right_tasks.append(("right", c))
-            if c.is_reefer:
+            if c.is_reefer and c.weight == "full":
                 reefer_right_tasks.append(c)
             else:
                 general_right_tasks.append(c)

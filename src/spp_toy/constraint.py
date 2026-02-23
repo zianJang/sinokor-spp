@@ -122,6 +122,12 @@ def can_place_structurally(
         else:
             if below["container"] is None:
                 return False
+        if (
+            c.size_ft == 20
+            and isinstance(below["container"], ContainerSpec)
+            and below["container"].size_ft == 40
+        ):
+            return False
 
     # reefer: only full reefer must be on reefer socket
     if c.is_reefer and c.weight == "full":

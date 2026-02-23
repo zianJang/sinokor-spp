@@ -16,9 +16,9 @@ def mismatch_cells(baypair: BayPair, block_id: int):
             rL = baypair.left.occupancy[block_id][(col, tier)]["reefer"]
             rR = baypair.right.occupancy[block_id][(col, tier)]["reefer"]
 
-            if vL == 1 and vR == 0:
+            if vL == 1 and vR == 0 and eL:
                 out.append((0, col, tier, rL))
-            elif vL == 0 and vR == 1:
+            elif vL == 0 and vR == 1 and eR:
                 out.append((1, col, tier, rR))
             elif vL == 1 and vR == 1 and (eL != eR):
                 # side_to_fill = 0 if eL else 1
